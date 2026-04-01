@@ -1,0 +1,1395 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the MATLAB + Python ULM kidney perfusion pipeline">
+      
+      
+        <meta name="author" content="Daniela Bolaños Garcia">
+      
+      
+      
+        <link rel="prev" href="../../code_map/">
+      
+      
+        <link rel="next" href="../01_inputs_and_datasets/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>0. Configuration and Paths - ULM Refactor Pipeline Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#0-configuration-and-paths" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ULM Refactor Pipeline Wiki" class="md-header__button md-logo" aria-label="ULM Refactor Pipeline Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ULM Refactor Pipeline Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0. Configuration and Paths
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ULM Refactor Pipeline Wiki" class="md-nav__button md-logo" aria-label="ULM Refactor Pipeline Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ULM Refactor Pipeline Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Configuration and Paths
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Configuration and Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-files-in-this-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main files in this stage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-configuration-function-actually-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the configuration function actually does
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the configuration function actually does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-detects-the-code-root-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Detects the code root automatically
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-lets-the-user-choose-the-study-base-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Lets the user choose the study base folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-remembers-the-last-selected-study-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Remembers the last selected study root
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-adds-the-code-to-the-matlab-path-in-a-filtered-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Adds the code to the MATLAB path in a filtered way
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-exposes-the-main-handles-to-the-rest-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Exposes the main handles to the rest of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-file-standard_ulm_parameterscsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameter file: Standard_ULM_Parameters.CSV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters-scientifically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters scientifically
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-and-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs and outputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inputs and outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-rest-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the rest of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical note
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_inputs_and_datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Dataset and Inputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_build_blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Block Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_motion_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Motion Correction (SRUS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_fast_vs_slow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. FAST and SLOW Tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_pala_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. PALA Core Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_mb_separation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Microbubble Separation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_roi_definition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. ROI Definition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Metrics and Equations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_glomeruli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Glomeruli Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Visualization Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_python_analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Python Post-analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Outputs and Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_limitations_qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Limitations and QC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-files-in-this-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main files in this stage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-configuration-function-actually-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the configuration function actually does
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the configuration function actually does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-detects-the-code-root-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Detects the code root automatically
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-lets-the-user-choose-the-study-base-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Lets the user choose the study base folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-remembers-the-last-selected-study-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Remembers the last selected study root
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-adds-the-code-to-the-matlab-path-in-a-filtered-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Adds the code to the MATLAB path in a filtered way
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-exposes-the-main-handles-to-the-rest-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Exposes the main handles to the rest of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-file-standard_ulm_parameterscsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameter file: Standard_ULM_Parameters.CSV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters-scientifically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters scientifically
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-and-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs and outputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inputs and outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-rest-of-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the rest of the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical note
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="0-configuration-and-paths">0. Configuration and Paths<a class="headerlink" href="#0-configuration-and-paths" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>This stage initializes the pipeline and makes the refactor portable across computers, users, and study roots. In the current codebase, the central configuration entry point is:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cfg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">config_ULM_paths_general</span><span class="p">();</span>
+</code></pre></div>
+<p>implemented in:</p>
+<div class="highlight"><pre><span></span><code>REFRACTOR/0_config/config_ULM_paths_general.m
+</code></pre></div>
+<p>The job of this layer is <strong>not</strong> to process ultrasound data directly. Its job is to guarantee that all later stages see a coherent environment: correct code paths, a selected study root, remembered preferences, and access to parameter files.</p>
+<hr />
+<h2 id="main-files-in-this-stage">Main files in this stage<a class="headerlink" href="#main-files-in-this-stage" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>0_config/config_ULM_paths_general.m</code></li>
+<li><code>0_config/Standard_ULM_Parameters.CSV</code></li>
+<li><code>0_config/src/config/pipeline_config.m</code></li>
+<li><code>0_config/src/blocks/build_blocks_with_srus_mc.m</code></li>
+<li><code>0_config/src/blocks/build_blocks_without_mc.m</code></li>
+<li><code>0_config/src/blocks/build_blocks_mc_only.m</code></li>
+<li><code>0_config/src/srus/run_motion_correction_srus.m</code></li>
+</ul>
+<hr />
+<h2 id="what-the-configuration-function-actually-does">What the configuration function actually does<a class="headerlink" href="#what-the-configuration-function-actually-does" title="Permanent link">&para;</a></h2>
+<h3 id="1-detects-the-code-root-automatically">1. Detects the code root automatically<a class="headerlink" href="#1-detects-the-code-root-automatically" title="Permanent link">&para;</a></h3>
+<p>The function derives the project root from the location of <code>config_ULM_paths_general.m</code> itself. This is important because the code is meant to be portable and should not require hard-coded paths to the refactor repository.</p>
+<p>Conceptually:</p>
+<div class="arithmatex">\[
+\text{projectRoot} = \text{parent}(\text{folder containing config\_ULM\_paths\_general})
+\]</div>
+<p>This makes the code robust when copied to another machine or moved inside a new directory tree.</p>
+<h3 id="2-lets-the-user-choose-the-study-base-folder">2. Lets the user choose the study base folder<a class="headerlink" href="#2-lets-the-user-choose-the-study-base-folder" title="Permanent link">&para;</a></h3>
+<p>The code then opens a folder picker and asks the user to select the <strong>data root</strong> that contains all participant folders. In your workflow, that folder contains datasets with names such as:</p>
+<div class="highlight"><pre><span></span><code>ULM_NTX_01
+ULM_NTX_02
+ULM_GRAN_01
+</code></pre></div>
+<p>This selected folder becomes <code>baseDir</code>.</p>
+<h3 id="3-remembers-the-last-selected-study-root">3. Remembers the last selected study root<a class="headerlink" href="#3-remembers-the-last-selected-study-root" title="Permanent link">&para;</a></h3>
+<p>The function uses MATLAB preferences (<code>getpref</code>, <code>setpref</code>) so that the next time the pipeline is launched, the last successful study root can be offered again. This is very useful in a lab workflow where the same project root is used repeatedly.</p>
+<h3 id="4-adds-the-code-to-the-matlab-path-in-a-filtered-way">4. Adds the code to the MATLAB path in a filtered way<a class="headerlink" href="#4-adds-the-code-to-the-matlab-path-in-a-filtered-way" title="Permanent link">&para;</a></h3>
+<p>The config function adds the refactor folders to the MATLAB path while excluding clutter such as:</p>
+<ul>
+<li><code>.git</code></li>
+<li><code>__pycache__</code></li>
+<li>virtual environments</li>
+<li>Python output folders</li>
+<li>IDE folders such as <code>.vscode</code></li>
+</ul>
+<p>This reduces path noise and avoids package warnings.</p>
+<h3 id="5-exposes-the-main-handles-to-the-rest-of-the-pipeline">5. Exposes the main handles to the rest of the pipeline<a class="headerlink" href="#5-exposes-the-main-handles-to-the-rest-of-the-pipeline" title="Permanent link">&para;</a></h3>
+<p>The output structure <code>cfg</code> provides, at minimum:</p>
+<ul>
+<li><code>cfg.baseDir</code></li>
+<li><code>cfg.projectRoot</code></li>
+<li>code helper paths</li>
+<li>path to the parameter CSV</li>
+</ul>
+<p>That structure is then consumed by <code>run_all_participants_2D_ULM.m</code>.</p>
+<hr />
+<h2 id="parameter-file-standard_ulm_parameterscsv">Parameter file: Standard_ULM_Parameters.CSV<a class="headerlink" href="#parameter-file-standard_ulm_parameterscsv" title="Permanent link">&para;</a></h2>
+<p>The parameter CSV is the bridge between the workflow logic and the numerical settings used by the PALA processing stage. It stores mode- and study-specific parameters such as:</p>
+<ul>
+<li>number of particles</li>
+<li>SVD cutoff</li>
+<li>localization method</li>
+<li>FWHM</li>
+<li>minimum track length</li>
+<li>linking distance</li>
+<li>Butterworth frequency cutoffs</li>
+<li>TGC settings</li>
+</ul>
+<p>This means the numerical behavior of the ULM core is <strong>data-driven</strong> rather than hard-coded.</p>
+<p>That is important because FAST and SLOW processing use different assumptions about the expected motion regime.</p>
+<hr />
+<h2 id="why-this-matters-scientifically">Why this matters scientifically<a class="headerlink" href="#why-this-matters-scientifically" title="Permanent link">&para;</a></h2>
+<p>In a ULM pipeline, the reconstruction quality depends strongly on the coherence between:</p>
+<ul>
+<li>acquisition metadata</li>
+<li>frame rate</li>
+<li>spatial calibration</li>
+<li>filtering parameters</li>
+<li>tracking constraints</li>
+</ul>
+<p>This configuration stage is where the pipeline guarantees that all later modules start from the same assumptions.</p>
+<p>In practical terms, it prevents three common problems:</p>
+<ol>
+<li>using the wrong data root</li>
+<li>mixing code from different branches or folders</li>
+<li>running FAST/SLOW with inconsistent parameter sets</li>
+</ol>
+<hr />
+<h2 id="inputs-and-outputs">Inputs and outputs<a class="headerlink" href="#inputs-and-outputs" title="Permanent link">&para;</a></h2>
+<h3 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Refactor repository on disk</li>
+<li>Study root selected by the user</li>
+<li>Parameter CSV</li>
+</ul>
+<h3 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h3>
+<ul>
+<li>initialized MATLAB path</li>
+<li>selected <code>baseDir</code></li>
+<li>reusable configuration struct <code>cfg</code></li>
+</ul>
+<hr />
+<h2 id="relationship-to-the-rest-of-the-pipeline">Relationship to the rest of the pipeline<a class="headerlink" href="#relationship-to-the-rest-of-the-pipeline" title="Permanent link">&para;</a></h2>
+<p>This stage is called immediately by the batch orchestrator:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cfg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">config_ULM_paths_general</span><span class="p">();</span>
+<span class="n">baseDir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">cfg</span><span class="p">.</span><span class="n">baseDir</span><span class="p">;</span>
+</code></pre></div>
+<p>Everything else depends on that <code>baseDir</code>. For this reason, configuration is the <strong>true stage zero</strong> of the pipeline.</p>
+<hr />
+<h2 id="practical-note">Practical note<a class="headerlink" href="#practical-note" title="Permanent link">&para;</a></h2>
+<p>The configuration layer does not compute microvascular biomarkers itself, but it controls the conditions under which all biomarkers are later computed. In that sense, it is part of the reproducibility backbone of the full workflow.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

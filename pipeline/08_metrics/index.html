@@ -1,0 +1,2385 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the MATLAB + Python ULM kidney perfusion pipeline">
+      
+      
+        <meta name="author" content="Daniela Bolaños Garcia">
+      
+      
+      
+        <link rel="prev" href="../07_roi_definition/">
+      
+      
+        <link rel="next" href="../09_glomeruli/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>8. Metrics and Equations - ULM Refactor Pipeline Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#8-metrics-and-equations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ULM Refactor Pipeline Wiki" class="md-header__button md-logo" aria-label="ULM Refactor Pipeline Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ULM Refactor Pipeline Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              8. Metrics and Equations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ULM Refactor Pipeline Wiki" class="md-nav__button md-logo" aria-label="ULM Refactor Pipeline Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ULM Refactor Pipeline Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Configuration and Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_inputs_and_datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Dataset and Inputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_build_blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Block Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_motion_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Motion Correction (SRUS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_fast_vs_slow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. FAST and SLOW Tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_pala_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. PALA Core Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_mb_separation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Microbubble Separation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_roi_definition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. ROI Definition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Metrics and Equations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Metrics and Equations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physical-context-what-ulm-outputs-represent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical context: what ULM outputs represent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#81-roi-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 ROI Area
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#82-microbubble-density-and-microvascular-blood-volume-mvbv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Microbubble Density and Microvascular Blood Volume (MVBV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 Microbubble Density and Microvascular Blood Volume (MVBV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microvascular-blood-volume-mvbv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microvascular Blood Volume (MVBV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#83-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Velocity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.3 Velocity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-perfused-area-fraction-paf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Perfused Area Fraction (PAF)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.4 Perfused Area Fraction (PAF)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation note
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biological-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biological interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#85-perfusion-proxy-phi-density-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Perfusion Proxy (Phi — density × velocity)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.5 Perfusion Proxy (Phi — density × velocity)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical rationale
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#86-tortuosity-distance-index-di" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Tortuosity — Distance Index (DI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.6 Tortuosity — Distance Index (DI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physical-interpretation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#87-tortuosity-angular-change-degmm-soam-adapted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 Tortuosity — Angular Change (deg/mm, SOAM-adapted)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.7 Tortuosity — Angular Change (deg/mm, SOAM-adapted)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-from-canonical-soam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difference from canonical SOAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#88-tortuosity-vti-vessel-tortuosity-index-ulm-adapted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Tortuosity — VTI (Vessel Tortuosity Index, ULM-adapted)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.8 Tortuosity — VTI (Vessel Tortuosity Index, ULM-adapted)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#published-formula-khansari-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Published formula (Khansari et al. 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation — step by step
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#881-justification-for-segment-based-sigma_theta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8.1 Justification for segment-based \(\sigma_\theta\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugs-corrected-vs-original-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bugs corrected vs. original implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#89-voxel-wise-tortuosity-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.9 Voxel-wise Tortuosity Map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#810-dispersity-circular-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.10 Dispersity (Circular Statistics)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.10 Dispersity (Circular Statistics)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical motivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spatial-dispersity-degmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial dispersity (deg/mm)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-to-denis-et-al-2023" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison to Denis et al. (2023)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#811-track-count-and-support-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.11 Track Count and Support Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#812-glomeruli-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.12 Glomeruli Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#813-summary-metricphysicsreference-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.13 Summary: Metric–Physics–Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#814-multi-scale-output-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.14 Multi-scale output design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scientific-meaning-of-the-metrics-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scientific meaning of the metrics stage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_glomeruli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Glomeruli Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Visualization Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_python_analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Python Post-analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Outputs and Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_limitations_qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Limitations and QC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physical-context-what-ulm-outputs-represent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical context: what ULM outputs represent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#81-roi-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 ROI Area
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#82-microbubble-density-and-microvascular-blood-volume-mvbv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Microbubble Density and Microvascular Blood Volume (MVBV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2 Microbubble Density and Microvascular Blood Volume (MVBV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microvascular-blood-volume-mvbv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microvascular Blood Volume (MVBV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#83-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Velocity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.3 Velocity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-perfused-area-fraction-paf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Perfused Area Fraction (PAF)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.4 Perfused Area Fraction (PAF)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation note
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biological-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biological interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#85-perfusion-proxy-phi-density-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Perfusion Proxy (Phi — density × velocity)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.5 Perfusion Proxy (Phi — density × velocity)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical rationale
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#86-tortuosity-distance-index-di" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Tortuosity — Distance Index (DI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.6 Tortuosity — Distance Index (DI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physical-interpretation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#87-tortuosity-angular-change-degmm-soam-adapted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 Tortuosity — Angular Change (deg/mm, SOAM-adapted)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.7 Tortuosity — Angular Change (deg/mm, SOAM-adapted)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-definition_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-from-canonical-soam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difference from canonical SOAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#88-tortuosity-vti-vessel-tortuosity-index-ulm-adapted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Tortuosity — VTI (Vessel Tortuosity Index, ULM-adapted)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.8 Tortuosity — VTI (Vessel Tortuosity Index, ULM-adapted)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#published-formula-khansari-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Published formula (Khansari et al. 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation — step by step
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#881-justification-for-segment-based-sigma_theta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8.1 Justification for segment-based \(\sigma_\theta\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugs-corrected-vs-original-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bugs corrected vs. original implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#89-voxel-wise-tortuosity-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.9 Voxel-wise Tortuosity Map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#810-dispersity-circular-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.10 Dispersity (Circular Statistics)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8.10 Dispersity (Circular Statistics)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical motivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spatial-dispersity-degmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial dispersity (deg/mm)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-to-denis-et-al-2023" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison to Denis et al. (2023)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#811-track-count-and-support-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.11 Track Count and Support Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#812-glomeruli-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.12 Glomeruli Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#813-summary-metricphysicsreference-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.13 Summary: Metric–Physics–Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#814-multi-scale-output-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.14 Multi-scale output design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scientific-meaning-of-the-metrics-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scientific meaning of the metrics stage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="8-metrics-and-equations">8. Metrics and Equations<a class="headerlink" href="#8-metrics-and-equations" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>This stage transforms the reconstructed ULM outputs — localization maps, velocity fields, and tracked trajectories — into quantitative vascular biomarkers. Each metric is anchored to a published physical or physiological definition; this page documents both the implementation and its scientific basis, so the pipeline can be reported in full in a methods section.</p>
+<p>Main implementation files:</p>
+<ul>
+<li><code>4_compute_ROIs_and_metrics/run_kidney_metrics_batch.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/run_kidney_metrics_single_dataset.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/ulm_metrics.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/compute_ulm_metrics.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/tracks_to_grid.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/tortuosity_over_tracks.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/compute_tortuosity_VTI.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/voxel_tortuosity_map.m</code></li>
+<li><code>4_compute_ROIs_and_metrics/helpers/compute_dispersity_distance_metric_roi.m</code></li>
+</ul>
+<p>The stage produces three output granularities:</p>
+<table>
+<thead>
+<tr>
+<th>Scale</th>
+<th>File pattern</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROI</td>
+<td><code>*_kidney_metrics_summary.csv</code></td>
+<td>One row per ROI per dataset</td>
+</tr>
+<tr>
+<td>Voxel</td>
+<td><code>*_kidney_metrics_RAWVALUES.csv</code></td>
+<td>Per-pixel values for Python aggregation</td>
+</tr>
+<tr>
+<td>Track</td>
+<td><code>*_kidney_tortuosity_tracks.csv</code></td>
+<td>Per-track tortuosity values before aggregation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="physical-context-what-ulm-outputs-represent">Physical context: what ULM outputs represent<a class="headerlink" href="#physical-context-what-ulm-outputs-represent" title="Permanent link">&para;</a></h2>
+<p>Before describing each metric, it is important to recall what the upstream pipeline produces. After SVD clutter filtering, sub-resolution localization, and multi-frame tracking, three maps are available over the super-resolved grid:</p>
+<ul>
+<li><strong><code>MatOut(x,z)</code></strong>: the spatial accumulation map. Each pixel holds the count of microbubble localizations that fell within that pixel across the entire acquisition. Formally:</li>
+</ul>
+<div class="arithmatex">\[
+D(x,z) = \sum_{t=1}^{T} \sum_{k} \mathbf{1}\bigl[(x_k^t, z_k^t) \in \text{pixel}(x,z)\bigr]
+\]</div>
+<p>where the inner sum runs over all localizations <span class="arithmatex">\(k\)</span> detected at frame <span class="arithmatex">\(t\)</span>. This is the ULM density map as defined in Hingot et al. (2019) and reviewed in Christensen-Jeffries et al. (2020).</p>
+<ul>
+<li>
+<p><strong><code>MatOut_vel(x,z)</code></strong>: the mean microbubble speed at each pixel, in mm/s after <code>lambda</code> scaling. Computed from inter-frame displacements of tracked bubbles passing through that voxel.</p>
+</li>
+<li>
+<p><strong>Tracks</strong>: sequences of super-resolved positions <span class="arithmatex">\(\{\mathbf{p}_i\} = \{(z_i, x_i)\}\)</span> linked across frames. These carry both geometric (tortuosity, dispersity) and kinematic (speed) information.</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>  Raw IQ frames
+       |
+   SVD filter  ────────► clutter removed
+       |
+  Localization ────────► sub-px bubble positions (x,z,t)
+       |
+   Tracking    ────────► trajectories {p1,...,pN}
+       |
+  Track2MatOut ────────► D(x,z)   MatOut_vel(x,z)
+       |
+  Metric stage ────────► density · velocity · tortuosity · dispersity · PAF · Phi
+</code></pre></div>
+<hr />
+<h2 id="81-roi-area">8.1 ROI Area<a class="headerlink" href="#81-roi-area" title="Permanent link">&para;</a></h2>
+<p>For every ROI mask containing <span class="arithmatex">\(N_\text{pix}\)</span> pixels with physical spacings <span class="arithmatex">\(\Delta x\)</span> and <span class="arithmatex">\(\Delta z\)</span> (mm):</p>
+<div class="arithmatex">\[
+A_\text{ROI} = N_\text{pix} \cdot \Delta x \cdot \Delta z \qquad [\text{mm}^2]
+\]</div>
+<p>This area normalizes density and glomerular density to physically meaningful units independent of image resolution or zoom level.</p>
+<hr />
+<h2 id="82-microbubble-density-and-microvascular-blood-volume-mvbv">8.2 Microbubble Density and Microvascular Blood Volume (MVBV)<a class="headerlink" href="#82-microbubble-density-and-microvascular-blood-volume-mvbv" title="Permanent link">&para;</a></h2>
+<h3 id="physical-definition">Physical definition<a class="headerlink" href="#physical-definition" title="Permanent link">&para;</a></h3>
+<p>The density map <span class="arithmatex">\(D(x,z)\)</span> is the ULM analog of microvascular blood volume (MBV) in conventional contrast-enhanced ultrasound (CEUS). In CEUS, MBV is proportional to the plateau signal intensity <span class="arithmatex">\(A\)</span> of the wash-in curve (Wei et al. 1998). In ULM, the same information is encoded spatially: pixels that are repeatedly traversed by microbubbles accumulate higher counts, directly reflecting the time-integrated presence of flowing contrast.</p>
+<div class="arithmatex">\[
+\bar{D}_\text{ROI} = \frac{1}{N_\text{pix}} \sum_{(x,z)\,\in\,\text{ROI}} D(x,z) \qquad [\text{counts/pixel}]
+\]</div>
+<p>Normalized to physical area:</p>
+<div class="arithmatex">\[
+\rho = \frac{\sum_{(x,z)\,\in\,\text{ROI}} D(x,z)}{A_\text{ROI}} \qquad [\text{counts/mm}^2]
+\]</div>
+<h3 id="microvascular-blood-volume-mvbv">Microvascular Blood Volume (MVBV)<a class="headerlink" href="#microvascular-blood-volume-mvbv" title="Permanent link">&para;</a></h3>
+<p>MVBV is the fraction of the ROI area that was visited by at least one microbubble:</p>
+<div class="arithmatex">\[
+\text{MVBV}_\text{vox} = \#\{(x,z) \in \text{ROI} : D(x,z) &gt; 0\}
+\]</div>
+<div class="arithmatex">\[
+\text{MVBV}_\text{area} = \text{MVBV}_\text{vox} \cdot \Delta x \cdot \Delta z \qquad [\text{mm}^2]
+\]</div>
+<p>This is the standard ULM density output as defined in Hingot et al. (2019) and the PALA benchmark (Heiles et al. 2022).</p>
+<h3 id="important-note">Important note<a class="headerlink" href="#important-note" title="Permanent link">&para;</a></h3>
+<p><span class="arithmatex">\(\rho\)</span> is not a histological vessel count. It is a ULM-derived density surrogate proportional to the time-integrated microbubble transit signal per unit area. Because acquisition duration, bubble concentration, and frame rate all affect the absolute count, <span class="arithmatex">\(\rho\)</span> should be used for within-study relative comparisons unless acquisition parameters are standardized.</p>
+<p><strong>References:</strong> Hingot et al. <em>Sci Rep</em> 2019 [6]; Christensen-Jeffries et al. <em>Ultrasound Med Biol</em> 2020 [7]; Heiles et al. <em>Nat Biomed Eng</em> 2022 [5]; Wei et al. <em>Circulation</em> 1998 [8].</p>
+<hr />
+<h2 id="83-velocity">8.3 Velocity<a class="headerlink" href="#83-velocity" title="Permanent link">&para;</a></h2>
+<h3 id="physical-definition_1">Physical definition<a class="headerlink" href="#physical-definition_1" title="Permanent link">&para;</a></h3>
+<p>Microbubble speed is estimated from inter-frame displacements along each track. For a bubble at positions <span class="arithmatex">\((z_i, x_i)\)</span> and <span class="arithmatex">\((z_{i+1}, x_{i+1})\)</span> separated by time interval <span class="arithmatex">\(\Delta t = 1/f_\text{frame}\)</span>:</p>
+<div class="arithmatex">\[
+\|\mathbf{v}_i\| = \frac{\sqrt{(\Delta z_i)^2 + (\Delta x_i)^2}}{\Delta t} = \frac{\|\mathbf{p}_{i+1} - \mathbf{p}_i\|}{\Delta t}
+\]</div>
+<p>In code this is <code>hypot(vz, vx)</code> where <code>vz</code> and <code>vx</code> are the pre-computed velocity components scaled by <code>lambda</code>. This is the standard ULM velocimetry formula used in Errico et al. (2015) and Christensen-Jeffries et al. (2015).</p>
+<p>The ROI-level mean speed is:</p>
+<div class="arithmatex">\[
+\bar{v}_\text{ROI} = \frac{1}{N} \sum_{i=1}^{N} \|\mathbf{v}_i\| \qquad [\text{mm/s}]
+\]</div>
+<p>where the sum runs over all valid velocity samples (positive voxels) within the ROI mask applied to <code>MatOut_vel</code>.</p>
+<h3 id="physical-interpretation">Physical interpretation<a class="headerlink" href="#physical-interpretation" title="Permanent link">&para;</a></h3>
+<p>In the microcirculation, red blood cell velocity in capillaries ranges from ~0.2 mm/s to ~2 mm/s, and in larger cortical vessels up to ~10 mm/s. ULM velocity estimates reflect bubble advection by the local flow field, so <span class="arithmatex">\(\bar{v}\)</span> is a physiologically grounded flow-dynamics surrogate — not a direct Doppler measurement, but capturing the same hemodynamic information with spatial resolution inaccessible to conventional Doppler.</p>
+<p><strong>References:</strong> Errico et al. <em>Nature</em> 2015 [3]; Christensen-Jeffries et al. <em>IEEE TMI</em> 2015 [4].</p>
+<hr />
+<h2 id="84-perfused-area-fraction-paf">8.4 Perfused Area Fraction (PAF)<a class="headerlink" href="#84-perfused-area-fraction-paf" title="Permanent link">&para;</a></h2>
+<h3 id="physical-definition_2">Physical definition<a class="headerlink" href="#physical-definition_2" title="Permanent link">&para;</a></h3>
+<p>PAF is defined as the fraction of ROI pixels visited by at least one microbubble:</p>
+<div class="arithmatex">\[
+\text{PAF} = \frac{\#\{(x,z) \in \text{ROI} : D(x,z) &gt; 0\}}{N_\text{pix}}
+\]</div>
+<p>This corresponds to the binary perfused-area fraction reported in Lowerison et al. (2025) and Dencks &amp; Schmitz (2023). The threshold of one count (any microbubble passage) is the minimal positive threshold: a pixel is considered perfused if at least one bubble traversed it during the acquisition.</p>
+<p>In the conventional CEUS literature (Rubin et al. 1994), PAF corresponds to the "Fractional Moving Blood Volume" — the fraction of pixels showing Doppler-positive signal.</p>
+<h3 id="implementation-note">Implementation note<a class="headerlink" href="#implementation-note" title="Permanent link">&para;</a></h3>
+<p>An earlier version of the code used the median density as a threshold, producing a "supra-median density fraction" rather than true PAF. This was corrected:</p>
+<div class="highlight"><pre><span></span><code><span class="c">% TRUE PAF: fraction of ROI voxels with at least 1 localization</span>
+<span class="n">S</span><span class="p">.</span><span class="n">roi</span><span class="p">(</span><span class="n">r</span><span class="p">).</span><span class="n">paf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">counts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="c">% Original supra-median metric preserved under a distinct name</span>
+<span class="n">S</span><span class="p">.</span><span class="n">roi</span><span class="p">(</span><span class="n">r</span><span class="p">).</span><span class="n">high_density_fraction</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">counts</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">prctile</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))));</span>
+</code></pre></div>
+<p>By construction, <code>high_density_fraction &lt;= PAF</code> always holds, because requiring <span class="arithmatex">\(D \geq \text{median}\)</span> is strictly more demanding than requiring <span class="arithmatex">\(D &gt; 0\)</span>.</p>
+<h3 id="biological-interpretation">Biological interpretation<a class="headerlink" href="#biological-interpretation" title="Permanent link">&para;</a></h3>
+<p>In healthy renal cortex, PAF reflects how densely the glomerular and peri-tubular capillary network is populated with flowing bubbles. A reduced PAF may indicate microvascular rarefaction, reduced perfusion, or incomplete bubble delivery — as seen in renal impairment or fibrosis.</p>
+<p><strong>References:</strong> Lowerison et al. <em>eLife</em> 2025 [10]; Dencks &amp; Schmitz <em>Z Med Phys</em> 2023 [11]; Rubin et al. <em>Radiology</em> 1994 [13].</p>
+<hr />
+<h2 id="85-perfusion-proxy-phi-density-velocity">8.5 Perfusion Proxy (Phi — density × velocity)<a class="headerlink" href="#85-perfusion-proxy-phi-density-velocity" title="Permanent link">&para;</a></h2>
+<h3 id="physical-rationale">Physical rationale<a class="headerlink" href="#physical-rationale" title="Permanent link">&para;</a></h3>
+<p>In CEUS, volumetric blood flow <span class="arithmatex">\(Q\)</span> through a region is related to the wash-in curve parameters by (Wei et al. 1998):</p>
+<div class="arithmatex">\[
+Q \propto A \cdot \beta
+\]</div>
+<p>where <span class="arithmatex">\(A\)</span> is plateau signal intensity (proportional to microvascular blood volume) and <span class="arithmatex">\(\beta\)</span> is the wash-in rate constant (proportional to mean microbubble velocity). In ULM, <span class="arithmatex">\(D(x,z)\)</span> approximates <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(v(x,z)\)</span> approximates the velocity field, yielding a local perfusion proxy:</p>
+<div class="arithmatex">\[
+\Phi(x,z) = D(x,z) \cdot v(x,z)
+\]</div>
+<p>Two ROI-level estimators are implemented:</p>
+<p><strong>Map-based (preferred):</strong></p>
+<div class="arithmatex">\[
+\Phi_\text{map} = \frac{1}{N_\text{pix}} \sum_{(x,z)\in\text{ROI}} D(x,z) \cdot v(x,z)
+\]</div>
+<p>This computes the voxelwise product before averaging, preserving spatial co-variation between density and velocity.</p>
+<p><strong>Track-based:</strong></p>
+<div class="arithmatex">\[
+\Phi_\text{tracks} = \bar{D} \cdot \bar{v}
+\]</div>
+<p>This is only equivalent to <span class="arithmatex">\(\Phi_\text{map}\)</span> if density and velocity are spatially uncorrelated — i.e., <span class="arithmatex">\(\mathbb{E}[DV] = \mathbb{E}[D]\cdot\mathbb{E}[V]\)</span>. In renal cortex this assumption is unlikely (denser arcuate regions also carry faster flow), so <span class="arithmatex">\(\Phi_\text{map}\)</span> is preferred.</p>
+<p><span class="arithmatex">\(\Phi\)</span> has arbitrary units and should be reported as a relative perfusion index, not an absolute flow rate.</p>
+<p><strong>References:</strong> Wei et al. <em>Circulation</em> 1998 [8].</p>
+<hr />
+<h2 id="86-tortuosity-distance-index-di">8.6 Tortuosity — Distance Index (DI)<a class="headerlink" href="#86-tortuosity-distance-index-di" title="Permanent link">&para;</a></h2>
+<h3 id="physical-definition_3">Physical definition<a class="headerlink" href="#physical-definition_3" title="Permanent link">&para;</a></h3>
+<p>The Distance Index (DI) is the classical arc-to-chord tortuosity ratio introduced by Bullitt et al. (2003). For a track with <span class="arithmatex">\(N\)</span> points <span class="arithmatex">\(\mathbf{p}_1, \ldots, \mathbf{p}_N\)</span>:</p>
+<div class="arithmatex">\[
+L_\text{arc} = \sum_{i=1}^{N-1} \|\mathbf{p}_{i+1} - \mathbf{p}_i\| = \sum_{i=1}^{N-1} \sqrt{(\Delta z_i)^2 + (\Delta x_i)^2}
+\]</div>
+<div class="arithmatex">\[
+L_\text{chord} = \|\mathbf{p}_N - \mathbf{p}_1\| = \sqrt{(z_N - z_1)^2 + (x_N - x_1)^2}
+\]</div>
+<div class="arithmatex">\[
+\text{DI} = \frac{L_\text{arc}}{L_\text{chord}}
+\]</div>
+<p>DI = 1 for a perfectly straight path; DI &gt; 1 for any curved trajectory. Tracks with <span class="arithmatex">\(L_\text{chord} = 0\)</span> (closed loops or stationary detections) are excluded. The ROI-level index is the mean over all qualifying tracks entering the ROI.</p>
+<p><strong>Validation status: CORRECT</strong> — exact match to Bullitt et al. (2003).</p>
+<h3 id="physical-interpretation_1">Physical interpretation<a class="headerlink" href="#physical-interpretation_1" title="Permanent link">&para;</a></h3>
+<p>DI captures path-level geometric complexity. In renal microvasculature, elevated DI may reflect glomerular capillary loops, pathological kinking, or microangiopathy. A DI of 1.05 is mildly tortuous; values above ~1.2 indicate clinically significant winding.</p>
+<p><strong>References:</strong> Bullitt et al. <em>IEEE Trans Med Imaging</em> 2003 [1].</p>
+<hr />
+<h2 id="87-tortuosity-angular-change-degmm-soam-adapted">8.7 Tortuosity — Angular Change (deg/mm, SOAM-adapted)<a class="headerlink" href="#87-tortuosity-angular-change-degmm-soam-adapted" title="Permanent link">&para;</a></h2>
+<h3 id="physical-definition_4">Physical definition<a class="headerlink" href="#physical-definition_4" title="Permanent link">&para;</a></h3>
+<p>This metric quantifies how rapidly the flow direction changes per unit path length — a measure of local curvature integrated over the vessel. It is an adaptation of the Sum of Angles Measure (SOAM) from Bullitt et al. (2003).</p>
+<p>For consecutive segment vectors with directions <span class="arithmatex">\(\theta_i = \text{atan2}(\Delta z_i, \Delta x_i)\)</span>, the signed angular change between segments <span class="arithmatex">\(i\)</span> and <span class="arithmatex">\(i+1\)</span> is wrapped to <span class="arithmatex">\([-\pi, \pi]\)</span>:</p>
+<div class="arithmatex">\[
+\delta\theta_i = \bigl[(\theta_{i+1} - \theta_i) + \pi \;\mathrm{mod}\; 2\pi\bigr] - \pi
+\]</div>
+<p>The total accumulated turning normalized by path length:</p>
+<div class="arithmatex">\[
+\tau_\text{deg/mm} = \frac{180}{\pi} \cdot \frac{\displaystyle\sum_{i} |\delta\theta_i|}{L_\text{arc}}
+\]</div>
+<h3 id="difference-from-canonical-soam">Difference from canonical SOAM<a class="headerlink" href="#difference-from-canonical-soam" title="Permanent link">&para;</a></h3>
+<p>Canonical SOAM uses the absolute tangent angle of each point relative to a fixed axis. This implementation uses direction changes between consecutive segment vectors — appropriate for ULM discrete tracks (one localization per frame), where spline-based tangent estimation would introduce interpolation artifacts. For smooth microvascular paths, both formulations converge.</p>
+<p>In publications: label as <strong>"angular-change tortuosity (deg/mm)"</strong>, not SOAM.</p>
+<p><strong>Validation status: DEVIATION (minor)</strong> — physically correct and appropriate for discrete ULM tracks.</p>
+<p><strong>References:</strong> Bullitt et al. <em>IEEE Trans Med Imaging</em> 2003 [1].</p>
+<hr />
+<h2 id="88-tortuosity-vti-vessel-tortuosity-index-ulm-adapted">8.8 Tortuosity — VTI (Vessel Tortuosity Index, ULM-adapted)<a class="headerlink" href="#88-tortuosity-vti-vessel-tortuosity-index-ulm-adapted" title="Permanent link">&para;</a></h2>
+<h3 id="published-formula-khansari-et-al-2017">Published formula (Khansari et al. 2017)<a class="headerlink" href="#published-formula-khansari-et-al-2017" title="Permanent link">&para;</a></h3>
+<p>The Vessel Tortuosity Index combines arc length, angular variability, inflection structure, and local arc-to-chord ratios:</p>
+<div class="arithmatex">\[
+\text{VTI} = 0.1 \times \frac{L_\text{arc} \times \sigma_\theta \times N_\text{crit} \times \overline{DM}}{L_\text{chord}}
+\]</div>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(L_\text{arc}\)</span></td>
+<td>total arc length</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L_\text{chord}\)</span></td>
+<td>endpoint chord length</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\sigma_\theta\)</span></td>
+<td>SD of tangent angles along the vessel</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(N_\text{crit}\)</span></td>
+<td>number of critical points (direction-reversal events)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\overline{DM}\)</span></td>
+<td>mean arc-to-chord ratio between consecutive inflection points</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(0.1\)</span></td>
+<td>empirical scaling constant (values fall in perceptible range)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="implementation-step-by-step">Implementation — step by step<a class="headerlink" href="#implementation-step-by-step" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1</strong> — segment directions:</p>
+<div class="arithmatex">\[
+\theta_i = \text{atan2}(\Delta z_i,\, \Delta x_i), \quad i = 1, \ldots, N-1
+\]</div>
+<p><strong>Step 2</strong> — angular SD (<span class="arithmatex">\(\sigma_\theta\)</span>):</p>
+<div class="arithmatex">\[
+\sigma_\theta = \text{std}(\theta_1, \ldots, \theta_{N-1})
+\]</div>
+<p>Uses segment-vector directions (see Section 8.8.1 for justification).</p>
+<p><strong>Step 3</strong> — discrete curvature:</p>
+<div class="arithmatex">\[
+\kappa_i = \frac{\Delta\theta_i}{\bar{s}_i}, \quad \Delta\theta_i = \theta_{i+1} - \theta_i, \quad \bar{s}_i = \tfrac{1}{2}(s_i + s_{i+1})
+\]</div>
+<p><strong>Step 4</strong> — inflection points (for <span class="arithmatex">\(\overline{DM}\)</span>):</p>
+<p>Inflection points are zero-crossings of <span class="arithmatex">\(\Delta\theta\)</span> (sign changes of curvature):</p>
+<div class="arithmatex">\[
+\text{inflection at } i \iff \Delta\theta_i \cdot \Delta\theta_{i+1} &lt; 0
+\]</div>
+<p>Between consecutive inflection points <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span>:</p>
+<div class="arithmatex">\[
+DM_{ab} = \frac{\displaystyle\sum_{i=a}^{b-1} s_i}{\|\mathbf{p}_b - \mathbf{p}_a\|}
+\]</div>
+<p><span class="arithmatex">\(\overline{DM}\)</span> is the mean over all such segments. If fewer than two inflection points exist, the fallback is the global DI (whole-track arc-to-chord ratio), consistent with Khansari's original fallback.</p>
+<p><strong>Step 5</strong> — critical points (<span class="arithmatex">\(N_\text{crit}\)</span>):</p>
+<p>Direction-reversal events, detected as sign changes of <span class="arithmatex">\(\Delta\theta\)</span>:</p>
+<div class="arithmatex">\[
+N_\text{crit}^\text{raw} = \#\{i : \Delta\theta_i \cdot \Delta\theta_{i+1} &lt; 0\}
+\]</div>
+<p>Floor applied to prevent degenerate collapse for monotonically curved tracks:</p>
+<div class="arithmatex">\[
+N_\text{crit} = \max(N_\text{crit}^\text{raw},\; 1)
+\]</div>
+<p>Without this floor, VTI = 0 for any monotonically curving track (e.g., a quarter-circle arc) regardless of how curved it is — a physically incorrect result.</p>
+<p><strong>Step 6</strong> — composite index:</p>
+<div class="arithmatex">\[
+\text{VTI} = 0.1 \times \frac{L_\text{arc} \times \sigma_\theta \times N_\text{crit} \times \overline{DM}}{L_\text{chord}}
+\]</div>
+<h3 id="881-justification-for-segment-based-sigma_theta">8.8.1 Justification for segment-based <span class="arithmatex">\(\sigma_\theta\)</span><a class="headerlink" href="#881-justification-for-segment-based-sigma_theta" title="Permanent link">&para;</a></h3>
+<p>Khansari's original work used retinal angiography, where vessels are imaged as dense continuous pixel chains and spline-based point-level tangent estimation is appropriate. ULM tracks are fundamentally discrete: one localization per frame (~20–500 ms intervals), with localization uncertainty dependent on SNR. Under these conditions:</p>
+<ol>
+<li>Fitting a spline to estimate point-level tangents would introduce interpolation artifacts not present in the original data.</li>
+<li>Segment-vector directions are the highest-resolution angular information naturally available from tracking.</li>
+<li>For smooth microvascular paths (radius of curvature much larger than inter-localization spacing), segment-vector <span class="arithmatex">\(\sigma_\theta\)</span> converges to the continuous tangent-angle <span class="arithmatex">\(\sigma_\theta\)</span> as sampling density increases.</li>
+</ol>
+<p>This adaptation should be documented in publications as <strong>"VTI (ULM-adapted, segment-vector <span class="arithmatex">\(\sigma_\theta\)</span>)"</strong> with explicit reference to the discrete track structure.</p>
+<h3 id="bugs-corrected-vs-original-implementation">Bugs corrected vs. original implementation<a class="headerlink" href="#bugs-corrected-vs-original-implementation" title="Permanent link">&para;</a></h3>
+<p>Three bugs were identified and fixed:</p>
+<table>
+<thead>
+<tr>
+<th>Bug</th>
+<th>Original</th>
+<th>Fixed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Missing 0.1 scaling</td>
+<td><code>VTI = (L_arc x sigma x N x DM) / L_chord</code></td>
+<td><code>VTI = 0.1 x (...)</code></td>
+</tr>
+<tr>
+<td>Critical point detection</td>
+<td>Sign changes of <code>diff(curvature)</code> (2nd derivative peaks)</td>
+<td>Sign changes of <code>diff(theta)</code> (1st derivative reversals)</td>
+</tr>
+<tr>
+<td>No floor on <span class="arithmatex">\(N_\text{crit}\)</span></td>
+<td>Absent — VTI = 0 for monotone arcs</td>
+<td><code>N_crit = max(N_crit, 1)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Validation status: DIVERGES from Khansari (2017)</strong> in <span class="arithmatex">\(\sigma_\theta\)</span> definition (segment vs. point tangents) — justified by ULM data structure. Label as <strong>VTI-adapted</strong> in publications.</p>
+<p><strong>References:</strong> Khansari et al. <em>Biomed Opt Express</em> 2017 [2]; Bullitt et al. <em>IEEE Trans Med Imaging</em> 2003 [1].</p>
+<hr />
+<h2 id="89-voxel-wise-tortuosity-map">8.9 Voxel-wise Tortuosity Map<a class="headerlink" href="#89-voxel-wise-tortuosity-map" title="Permanent link">&para;</a></h2>
+<p>Rather than one tortuosity value per track, the pipeline also produces a spatial tortuosity map <span class="arithmatex">\(T(x,z)\)</span> by aggregating track-level DI values over local voxel neighborhoods:</p>
+<div class="arithmatex">\[
+T(x,z) = \frac{1}{K(x,z)} \sum_{k \in \mathcal{K}(x,z)} \text{DI}_k
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{K}(x,z)\)</span> is the set of tracks passing through the neighborhood of pixel <span class="arithmatex">\((x,z)\)</span>.</p>
+<p>This map reveals spatial heterogeneity in vessel geometry that ROI-level averages would obscure — for example, the tortuous glomerular capillary loops in the cortex produce locally elevated <span class="arithmatex">\(T\)</span> values invisible in a whole-cortex mean.</p>
+<p>Voxels with <span class="arithmatex">\(K(x,z) &lt; K_\text{min}\)</span> are masked as NaN to avoid unstable local estimates.</p>
+<hr />
+<h2 id="810-dispersity-circular-statistics">8.10 Dispersity (Circular Statistics)<a class="headerlink" href="#810-dispersity-circular-statistics" title="Permanent link">&para;</a></h2>
+<h3 id="physical-motivation">Physical motivation<a class="headerlink" href="#physical-motivation" title="Permanent link">&para;</a></h3>
+<p>Microvascular flow is not isotropic: cortical vessels tend to align radially (toward the medulla), while medullary vasa recta descend almost vertically. Dispersity quantifies how disordered or aligned the local flow directions are — a property invisible to speed or tortuosity metrics.</p>
+<h3 id="mathematical-formulation">Mathematical formulation<a class="headerlink" href="#mathematical-formulation" title="Permanent link">&para;</a></h3>
+<p>For tracks with orientations <span class="arithmatex">\(\theta_k\)</span>, the axial double-angle trick maps antipodally symmetric directions to unique angles (a vessel going right and one going left have the same orientation):</p>
+<div class="arithmatex">\[
+\phi_k = 2\theta_k \pmod{2\pi}
+\]</div>
+<p>The length-weighted circular mean vector:</p>
+<div class="arithmatex">\[
+\bar{C} = \frac{\sum_k w_k \cos\phi_k}{\sum_k w_k}, \qquad
+\bar{S} = \frac{\sum_k w_k \sin\phi_k}{\sum_k w_k}
+\]</div>
+<p>where <span class="arithmatex">\(w_k = L_\text{arc}^{(k)}\)</span> weights longer tracks more. The mean resultant length:</p>
+<div class="arithmatex">\[
+R = \sqrt{\bar{C}^2 + \bar{S}^2} \in [0,\,1]
+\]</div>
+<p>Dispersity:</p>
+<div class="arithmatex">\[
+\text{Dispersity} = 1 - R
+\]</div>
+<ul>
+<li><span class="arithmatex">\(R \to 1\)</span> (Dispersity <span class="arithmatex">\(\to 0\)</span>): all tracks aligned — coherent flow.</li>
+<li><span class="arithmatex">\(R \to 0\)</span> (Dispersity <span class="arithmatex">\(\to 1\)</span>): isotropic orientations — fully disordered flow.</li>
+</ul>
+<p>The circular mean orientation:</p>
+<div class="arithmatex">\[
+\mu_\text{ROI} = \frac{1}{2}\,\text{atan2}(\bar{S},\,\bar{C})
+\]</div>
+<h3 id="spatial-dispersity-degmm">Spatial dispersity (deg/mm)<a class="headerlink" href="#spatial-dispersity-degmm" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\tau_\text{dispersity} = \frac{\overline{|\theta_k - \mu_\text{ROI}|}}{r_\text{RMS}} \qquad [\text{deg/mm}]
+\]</div>
+<p>This gives a rate of directional disorder per unit spatial extent, useful for comparing ROIs of different physical sizes.</p>
+<h3 id="comparison-to-denis-et-al-2023">Comparison to Denis et al. (2023)<a class="headerlink" href="#comparison-to-denis-et-al-2023" title="Permanent link">&para;</a></h3>
+<p>Denis et al. define dispersity as the fraction of track segments not within ±20° of the dominant direction — a threshold-based approach. The <span class="arithmatex">\(1-R\)</span> formulation here is the rigorous circular-statistics analog (Mardia &amp; Jupp 2000): threshold-free, more sensitive to graded directional disorder, and more robust when no single dominant direction exists (as in glomerular capillary tufts).</p>
+<p><strong>Validation status: CORRECT</strong> — textbook circular statistics, more rigorous than Denis et al. (2023).</p>
+<p><strong>References:</strong> Denis et al. <em>eBioMedicine</em> 2023 [9]; Mardia &amp; Jupp <em>Directional Statistics</em> 2000 [12].</p>
+<hr />
+<h2 id="811-track-count-and-support-metrics">8.11 Track Count and Support Metrics<a class="headerlink" href="#811-track-count-and-support-metrics" title="Permanent link">&para;</a></h2>
+<p>Several metrics depend on how many tracks enter a ROI or neighborhood. These counts directly determine statistical stability:</p>
+<ul>
+<li>Tortuosity estimates from fewer than 5 tracks are unreliable.</li>
+<li>Dispersity from fewer than 10 tracks may show spurious alignment.</li>
+<li>Voxel-level maps should be masked where track count is below <span class="arithmatex">\(K_\text{min}\)</span>.</li>
+</ul>
+<p>Track count per ROI is always exported and should be reported alongside metrics in any publication to allow readers to assess reliability.</p>
+<hr />
+<h2 id="812-glomeruli-metrics">8.12 Glomeruli Metrics<a class="headerlink" href="#812-glomeruli-metrics" title="Permanent link">&para;</a></h2>
+<p>The ROI summary table includes glomerular quantities from the glomeruli detection stage (Section 9):</p>
+<ul>
+<li><code>glomeruli_nb</code>: number of detected glomeruli in the ROI</li>
+<li><code>glomeruli_density_glom_per_cm2</code>: count normalized to ROI area</li>
+<li><code>glomeruli_area_cm2</code>: total area occupied by detected glomerular structures</li>
+</ul>
+<p>Glomerular density has an established histological reference range (~5–10 glom/mm² in cortex by histology), providing an independent validation anchor for the pipeline.</p>
+<hr />
+<h2 id="813-summary-metricphysicsreference-table">8.13 Summary: Metric–Physics–Reference Table<a class="headerlink" href="#813-summary-metricphysicsreference-table" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Physical meaning</th>
+<th>Formula</th>
+<th>Validation</th>
+<th>Key reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Density <span class="arithmatex">\(\rho\)</span></td>
+<td>Time-integrated bubble transit per area</td>
+<td><span class="arithmatex">\(\sum D / A_\text{ROI}\)</span></td>
+<td>CORRECT</td>
+<td>Hingot 2019 [6]</td>
+</tr>
+<tr>
+<td>MVBV</td>
+<td>Perfused area in mm²</td>
+<td><span class="arithmatex">\(\#\{D&gt;0\} \cdot \Delta x \Delta z\)</span></td>
+<td>CORRECT</td>
+<td>Hingot 2019 [6]</td>
+</tr>
+<tr>
+<td>Speed <span class="arithmatex">\(\bar{v}\)</span></td>
+<td>Mean microbubble advection speed</td>
+<td><span class="arithmatex">\(\overline{\|\mathbf{v}\|}\)</span></td>
+<td>CORRECT</td>
+<td>Errico 2015 [3]</td>
+</tr>
+<tr>
+<td>PAF</td>
+<td>Fraction of ROI pixels with ≥1 bubble</td>
+<td><span class="arithmatex">\(\#\{D&gt;0\}/N_\text{pix}\)</span></td>
+<td>CORRECT (after fix)</td>
+<td>Lowerison 2025 [10]</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\Phi_\text{map}\)</span></td>
+<td>Relative perfusion index</td>
+<td><span class="arithmatex">\(\overline{D \cdot v}\)</span></td>
+<td>DEVIATION (minor)</td>
+<td>Wei 1998 [8]</td>
+</tr>
+<tr>
+<td>DI</td>
+<td>Arc-to-chord tortuosity</td>
+<td><span class="arithmatex">\(L_\text{arc}/L_\text{chord}\)</span></td>
+<td>CORRECT</td>
+<td>Bullitt 2003 [1]</td>
+</tr>
+<tr>
+<td>deg/mm</td>
+<td>Angular-change tortuosity</td>
+<td>$\sum</td>
+<td>\delta\theta</td>
+<td>/L_\text{arc}$</td>
+</tr>
+<tr>
+<td>VTI</td>
+<td>Composite tortuosity index</td>
+<td><span class="arithmatex">\(0.1 \times L_\text{arc}\,\sigma_\theta\,N_\text{crit}\,\overline{DM}/L_\text{chord}\)</span></td>
+<td>DIVERGES (adapted)</td>
+<td>Khansari 2017 [2]</td>
+</tr>
+<tr>
+<td>Dispersity</td>
+<td>Directional disorder <span class="arithmatex">\(1-R\)</span></td>
+<td>Axial circular resultant length</td>
+<td>CORRECT</td>
+<td>Mardia &amp; Jupp 2000 [12]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="814-multi-scale-output-design">8.14 Multi-scale output design<a class="headerlink" href="#814-multi-scale-output-design" title="Permanent link">&para;</a></h2>
+<p>The pipeline preserves information at three nested scales:</p>
+<div class="highlight"><pre><span></span><code>  Voxel scale  ─── D(x,z), v(x,z), T(x,z)  ─── spatial heterogeneity, maps
+       |
+  Track scale  ─── DI_k, VTI_k, theta_k     ─── individual trajectory geometry
+       |
+  ROI scale    ─── mean, std per ROI         ─── biomarker summary for statistics
+</code></pre></div>
+<p>This design is important because:</p>
+<ol>
+<li>Voxel maps allow visualization of regional heterogeneity within an ROI.</li>
+<li>Track-level values allow distribution analysis (histogram of DI) rather than just means.</li>
+<li>ROI summaries support cohort-level statistical testing and correlation with clinical variables.</li>
+</ol>
+<p>Discarding intermediate scales would lose diagnostically relevant information — for example, the variance of DI within a ROI may be as informative as its mean for detecting patchy disease.</p>
+<hr />
+<h2 id="scientific-meaning-of-the-metrics-stage">Scientific meaning of the metrics stage<a class="headerlink" href="#scientific-meaning-of-the-metrics-stage" title="Permanent link">&para;</a></h2>
+<p>This stage is where the pipeline stops being an image-reconstruction tool and becomes a <strong>biomarker extraction framework</strong>. Each metric captures a distinct and physically interpretable dimension of microvascular biology:</p>
+<ul>
+<li><strong>Density</strong> → how much vascular territory is populated with flowing bubbles</li>
+<li><strong>MVBV / PAF</strong> → what fraction of the ROI is perfused at all</li>
+<li><strong>Velocity</strong> → how fast contrast moves through those vessels</li>
+<li><strong>DI / deg/mm / VTI</strong> → how geometrically complex the vessel paths are</li>
+<li><strong>Dispersity</strong> → how organized or disordered the flow directions are</li>
+<li><strong>Glomeruli density</strong> → how many discrete filtration units are detectable</li>
+</ul>
+<p>Together, these metrics describe the kidney as a multidimensional vascular phenotype — enabling differentiation between compartments (cortex vs. medulla), conditions (healthy vs. disease), and time points (longitudinal follow-up).</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Bullitt E, Gerig G, Pizer SM, Lin W, Aylward SR. Measuring tortuosity of the intracerebral vasculature from MRA images. <em>IEEE Trans Med Imaging.</em> 2003;22(9):1163–71. DOI: 10.1109/TMI.2003.816964</li>
+<li>Khansari MM, O'Neill W, Lim J, Shahidi M. Method for quantitative assessment of retinal vessel tortuosity in optical coherence tomography angiography applied to sickle cell retinopathy. <em>Biomed Opt Express.</em> 2017;8(8):3796–3806. DOI: 10.1364/BOE.8.003796</li>
+<li>Errico C, Pierre J, Pezet S, et al. Ultrafast ultrasound localization microscopy for deep super-resolution vascular imaging. <em>Nature.</em> 2015;527:499–502. DOI: 10.1038/nature16066</li>
+<li>Christensen-Jeffries K, Browning RJ, Tang M-X, Dunsby C, Eckersley RJ. In vivo acoustic super-resolution and super-resolved velocity mapping using microbubbles. <em>IEEE Trans Med Imaging.</em> 2015;34(2):433–440. DOI: 10.1109/TMI.2014.2359650</li>
+<li>Heiles B, Chavignon A, Hingot V, et al. Performance benchmarking of microbubble-localization algorithms for ultrasound localization microscopy. <em>Nat Biomed Eng.</em> 2022;6(5):605–616. DOI: 10.1038/s41551-021-00824-8</li>
+<li>Hingot V, Errico C, Heiles B, et al. Microvascular flow dictates the compromise between spatial resolution and acquisition time in ULM. <em>Sci Rep.</em> 2019;9:2456. DOI: 10.1038/s41598-018-38349-x</li>
+<li>Christensen-Jeffries K, Couture O, Dayton PA, et al. Super-resolution Ultrasound Imaging. <em>Ultrasound Med Biol.</em> 2020;46(4):865–891. DOI: 10.1016/j.ultrasmedbio.2019.11.013</li>
+<li>Wei K, Jayaweera AR, Firoozan S, et al. Quantification of myocardial blood flow with ultrasound-induced destruction of microbubbles. <em>Circulation.</em> 1998;97(5):473–483. DOI: 10.1161/01.CIR.97.5.473</li>
+<li>Denis L, Bodard S, Hingot V, et al. Sensing ultrasound localization microscopy for the visualization of glomeruli in living rats and humans. <em>eBioMedicine.</em> 2023;91:104578. DOI: 10.1016/j.ebiom.2023.104578</li>
+<li>Lowerison MR, Sekaran NVC, Dong Z, et al. Longitudinal awake imaging of mouse deep brain microvasculature with super-resolution ULM. <em>eLife.</em> 2025;14:e95168. DOI: 10.7554/eLife.95168</li>
+<li>Dencks S, Schmitz G. Ultrasound localization microscopy. <em>Z Med Phys.</em> 2023;33(3):292–308. DOI: 10.1016/j.zemedi.2023.02.004</li>
+<li>Mardia KV, Jupp PE. <em>Directional Statistics.</em> Chichester: Wiley; 2000. DOI: 10.1002/9780470316979</li>
+<li>Rubin JM, Bude RO, Carson PL, et al. Power Doppler US: a potentially useful alternative to mean frequency-based color Doppler US. <em>Radiology.</em> 1994;190(3):853–856. DOI: 10.1148/radiology.190.3.8115639</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
