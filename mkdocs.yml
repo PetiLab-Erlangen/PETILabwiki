@@ -1,0 +1,40 @@
+site_name: ULM Refactor Pipeline Wiki
+site_description: Documentation for the MATLAB + Python ULM kidney perfusion pipeline
+site_author: Daniela Bolaños Garcia
+
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.details
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Overview: overview.md
+  - Architecture: architecture.md
+  - Code Map: code_map.md
+  - Pipeline:
+      - 0. Configuration and Paths: pipeline/00_configuration.md
+      - 1. Dataset and Inputs: pipeline/01_inputs_and_datasets.md
+      - 2. Block Building: pipeline/02_build_blocks.md
+      - 3. Motion Correction (SRUS): pipeline/03_motion_correction.md
+      - 4. FAST and SLOW Tracking: pipeline/04_fast_vs_slow.md
+      - 5. PALA Core Processing: pipeline/05_pala_core.md
+      - 6. Microbubble Separation: pipeline/06_mb_separation.md
+      - 7. ROI Definition: pipeline/07_roi_definition.md
+      - 8. Metrics and Equations: pipeline/08_metrics.md
+      - 9. Glomeruli Analysis: pipeline/09_glomeruli.md
+      - 10. Visualization Outputs: pipeline/10_visualization.md
+      - 11. Python Post-analysis: pipeline/11_python_analysis.md
+      - 12. Dashboard: pipeline/12_dashboard.md
+      - 13. Outputs and Folder Structure: pipeline/13_outputs.md
+      - 14. Limitations and QC: pipeline/14_limitations_qc.md
